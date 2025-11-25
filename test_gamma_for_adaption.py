@@ -157,6 +157,8 @@ def main(samples:int=100, num_iter:int=100, emb_dim:int=16):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
 
+    print("Performing reconstruction ...")
+
     X_diff = []
     for patient in X:
         tmp = []
@@ -175,6 +177,7 @@ def main(samples:int=100, num_iter:int=100, emb_dim:int=16):
             tmp.append([_x[0,0].to('cpu').numpy() for _x in x_0])
         X_diff.append(np.array(tmp))
 
+    print("Performing test-time adaptation ...")
     ckpt_dir = Path(Path.home() / "data/results/iscreen/da/2025-05-22_13-17-45_ms_unet_high_res_trained_on_spectralis")
     seq = [i for i in range(1, samples, 10)]
     dice = DiceMetric(include_background=False, num_classes=4, ignore_empty=False)
@@ -223,9 +226,9 @@ def main(samples:int=100, num_iter:int=100, emb_dim:int=16):
         mces.append(mce(yhats.permute((1,0,2,3))[None], ys[0]))
         print(dices[-1])
 
+    print("Finished run! Computing dice scores ...")
     print(extract_dice(np.array(dices), np.array(present), return_std=True), np.mean(extract_dice(np.array(dices), np.array(present))))
-    print("Finished run!")
-
+    
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--samples', type=int, default=100, help='Number of samples for gamma steps')
