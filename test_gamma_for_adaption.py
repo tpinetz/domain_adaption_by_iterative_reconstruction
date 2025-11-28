@@ -1,34 +1,20 @@
 import torch
+import argparse
 import numpy as np
-import pandas as pd
 from tqdm import tqdm
-from models.EntropyModulator import TentNormModulator
-from models.segmodel import SegModel
-import imageio
 import os
 from pathlib import Path
 from monai.metrics import DiceMetric
-
-from functions.evaluation import get_patients_from_df, patients_to_volumes, extract_dice
-
-import torch
-import torch.nn.functional as F
-import numpy as np
-import matplotlib.pyplot as plt
-from models.diffusion import Model, get_timestep_embedding
-import sys
 import cv2
-import os
-from datasets import get_dataset, data_transform, inverse_data_transform
-from runners.diffusion import Diffusion
-import imageio
-from tqdm.notebook import tqdm
-from pathlib import Path
 import yaml
+
 from models.diffusion import Model
+from functions.evaluation import get_patients_from_folder, patients_to_volumes, extract_dice
+from models.diffusion import Model, get_timestep_embedding
+from models.EntropyModulator import TentNormModulator
+from models.segmodel import SegModel
 from torchmetrics.classification import MulticlassCalibrationError
 
-import argparse
 
 
 
@@ -135,8 +121,9 @@ def dict2namespace(config_dict):
 
 
 def main(samples:int=100, num_iter:int=100, emb_dim:int=16):
-    csv_path = Path.home() / "repos/eye-screen/data_splits/20250109/Cirrus_dataset.csv"
-    patients = get_patients_from_df(pd.read_csv(csv_path))
+    #CHANGME: HERE TO YOUR DATA PATH
+    data_path = Path.home() / "data/RETOUCH/processed/Cirrus"
+    patients = get_patients_from_folder(data_path)
     X,y = patients_to_volumes(patients)
 
     with open(os.path.join("configs", "highres_gamma-32.yml"), "r") as f:
@@ -147,7 +134,7 @@ def main(samples:int=100, num_iter:int=100, emb_dim:int=16):
     model = Model(new_config)
 
     checkpoint_path = "ckpt.pth"
-    checkpoint = torch.load(checkpoint_path)
+    checkpoint = torch.load(checkpoint_path, weights_only=True)
     state_dict = checkpoint[0]
     new_state_dict = {key.replace("module.", ""): value for key, value in state_dict.items()}
 
@@ -230,7 +217,7 @@ def main(samples:int=100, num_iter:int=100, emb_dim:int=16):
     
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('--samples', type=int, default=100, help='Number of samples for gamma steps')
+    argparser.add_argument('--samples', type=int, default=100, help='Number of samples for gamma steps. For Topcon I used 60.')
     argparser.add_argument('--num_iter', type=int, default=100, help='Number of adaptation iterations')
     argparser.add_argument('--emb_dim', type=int, default=16, help='Embedding dimension for modulator')
     args = argparser.parse_args()

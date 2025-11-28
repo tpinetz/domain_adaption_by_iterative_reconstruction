@@ -12,6 +12,7 @@ A compact repository for test-time domain adaptation using iterative reconstruct
 
 ## Data preprocessing
 - RETOUCH dataset images were resized to 512×512 using: `skimage.transform.resize` with default parameters (default parameters were used).
+- Store the images in a folder split into `Input` for the images and `Label` for the segmentation mask as evaluation. I named the files Pat_{pat_idx}_{slice_idx}.png. 
 
 ## Running experiments
 1. Ensure the diffusion model is checked out with Git LFS (required assets).

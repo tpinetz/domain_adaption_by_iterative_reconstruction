@@ -8,6 +8,17 @@ from pathlib import Path
 from monai.metrics import DiceMetric
 
 
+def get_patients_from_folder(path):
+    patients = {}
+    for _file in (path / "Input").iterdir():
+        pat_id = int(Path(_file.name).name.split("_")[1])
+        if pat_id not in patients:
+            patients[pat_id] = [(_file, path / "Label" / _file.name)]
+        else:
+            patients[pat_id].append((_file, path / "Label" / _file.name))
+
+    return patients
+
 def get_patients_from_df(df):
     patients = {}
     for key, row in df.iterrows():
