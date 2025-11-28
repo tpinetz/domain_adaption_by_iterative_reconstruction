@@ -1,0 +1,24 @@
+name: pytorch
+channels:
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - pytorch
+  - pytorch-cuda=12.4
+  - torchaudio
+  - torchvision
+  - jupyter
+  - cython
+  - matplotlib
+  - ipympl
+  - scikit-image
+  - conda-forge::timm
+  - lightning
+  - segmentation-models-pytorch
+  - albumentations
+  - scikit-learn
+  - pandas
+  - hydra-core
+  - tensorboard
+  - monai
+prefix: /home/thomas-pinetz/miniconda3/envs/pytorch
