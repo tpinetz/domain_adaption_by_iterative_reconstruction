@@ -7,17 +7,6 @@ import logging
 from pathlib import Path
 from monai.metrics import DiceMetric
 
-def extract_last_ckpt(path):
-    j_path = os.path.join(path, sorted([_p for _p in os.listdir(path) if 'version' in _p],reverse=True, key=lambda x: int(x.split('_')[1]))[0], 'checkpoints')
-    if os.path.exists(os.path.join(j_path, "last.ckpt")):
-        last_ckpt = os.path.join(j_path, "last.ckpt")
-    else:
-        last_ckpt = sorted(os.listdir(j_path),reverse=True, key=lambda x: int(x.split('=')[2].split('.')[0]))[0]
-        last_ckpt = os.path.join(j_path, last_ckpt)
-
-    logging.info(f"Found Checkpoint: {last_ckpt}")
-
-    return last_ckpt
 
 def get_patients_from_df(df):
     patients = {}

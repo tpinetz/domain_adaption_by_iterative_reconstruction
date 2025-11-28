@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 from monai.metrics import DiceMetric
 
-from functions.evaluation import extract_last_ckpt, get_patients_from_df, patients_to_volumes, extract_dice
+from functions.evaluation import get_patients_from_df, patients_to_volumes, extract_dice
 
 import torch
 import torch.nn.functional as F
@@ -178,12 +178,11 @@ def main(samples:int=100, num_iter:int=100, emb_dim:int=16):
         X_diff.append(np.array(tmp))
 
     print("Performing test-time adaptation ...")
-    ckpt_dir = Path(Path.home() / "data/results/iscreen/da/2025-05-22_13-17-45_ms_unet_high_res_trained_on_spectralis")
     seq = [i for i in range(1, samples, 10)]
     dice = DiceMetric(include_background=False, num_classes=4, ignore_empty=False)
     mce = MulticlassCalibrationError(4)
 
-    model = SegModel.load_from_checkpoint(extract_last_ckpt(ckpt_dir), map_location="cpu").eval()
+    model = SegModel.load_from_checkpoint("seg_model.ckpt", map_location="cpu").eval()
     modulator = TentNormModulator(model, emb_dim, 4, lr=1e-5).to(device)
     seg_embeddings = get_timestep_embedding(torch.from_numpy(np.array(seq)), emb_dim).to(device)
 
