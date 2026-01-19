@@ -120,7 +120,7 @@ def dict2namespace(config_dict):
 
 
 
-def main(samples:int=100, num_iter:int=100, emb_dim:int=16):
+def main(samples:int=100, num_iter:int=100, emb_dim:int=16, remove_first_step:bool=False):
     #CHANGME: HERE TO YOUR DATA PATH
     data_path = Path.home() / "data/RETOUCH/processed/Cirrus"
     patients = get_patients_from_folder(data_path)
@@ -194,10 +194,10 @@ def main(samples:int=100, num_iter:int=100, emb_dim:int=16):
             y_hat = []
             for _slice in range(X_diff[patient].shape[0]):
                 tmp = 0
-                for i, instance in enumerate(range(X_diff[patient].shape[1])):
+                for i, instance in enumerate(range(int(remove_first_step), X_diff[patient].shape[1])):
                     tmp += torch.softmax(modulator.forward(torch.from_numpy(X_diff[patient][_slice:_slice+1,instance:instance + 1].astype(np.float32) * 0.5 + 0.5).to(device),
                                                         seg_embeddings[i:i+1]), dim=1)[0].detach().cpu().numpy()
-                y_hat.append(tmp / X_diff[patient].shape[1])
+                y_hat.append(tmp / (X_diff[patient].shape[1] - int(remove_first_step)))
         yhats = np.array(y_hat)
         ys = y[patient][np.newaxis, np.newaxis]
         present.append([(ys == i).sum() > 0. for i in range(1,4)])
@@ -220,5 +220,6 @@ if __name__ == "__main__":
     argparser.add_argument('--samples', type=int, default=100, help='Number of samples for gamma steps. For Topcon I used 60.')
     argparser.add_argument('--num_iter', type=int, default=100, help='Number of adaptation iterations')
     argparser.add_argument('--emb_dim', type=int, default=16, help='Embedding dimension for modulator')
+    argparser.add_argument('--remove_first_step', action='store_true', help='Whether to remove the first step in gamma steps')
     args = argparser.parse_args()
-    main(args.samples, args.num_iter, args.emb_dim)
+    main(args.samples, args.num_iter, args.emb_dim, args.remove_first_step)

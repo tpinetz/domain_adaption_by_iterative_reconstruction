@@ -235,3 +235,5 @@ results/*
 *.sif
 
 scripts/torchinductor*
+
+ckpt.pth
