@@ -194,9 +194,9 @@ def main(samples:int=100, num_iter:int=100, emb_dim:int=16, remove_first_step:bo
             y_hat = []
             for _slice in range(X_diff[patient].shape[0]):
                 tmp = 0
-                for i, instance in enumerate(range(int(remove_first_step), X_diff[patient].shape[1])):
+                for instance in range(int(remove_first_step), X_diff[patient].shape[1]):
                     tmp += torch.softmax(modulator.forward(torch.from_numpy(X_diff[patient][_slice:_slice+1,instance:instance + 1].astype(np.float32) * 0.5 + 0.5).to(device),
-                                                        seg_embeddings[i:i+1]), dim=1)[0].detach().cpu().numpy()
+                                                        seg_embeddings[instance:instance+1]), dim=1)[0].detach().cpu().numpy()
                 y_hat.append(tmp / (X_diff[patient].shape[1] - int(remove_first_step)))
         yhats = np.array(y_hat)
         ys = y[patient][np.newaxis, np.newaxis]
