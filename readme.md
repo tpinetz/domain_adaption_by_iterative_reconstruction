@@ -1,6 +1,6 @@
 # Domain Adaptation via Iterative Reconstruction
 
-A compact repository for test-time domain adaptation using iterative reconstruction. The method adapts a pretrained model at test time using two modulators (EntropyModulator and NormModulator) and evaluates performance on downstream segmentation/retouch tasks.
+A compact repository for test-time domain adaptation using iterative reconstruction for the following [paper](https://openreview.net/forum?id=9wIPViPG9F&referrer=%5Bthe%20profile%20of%20Hrvoje%20Bogunovi%C4%87%5D(%2Fprofile%3Fid%3D~Hrvoje_Bogunovi%C4%871)). The method adapts a pretrained model at test time using two modulators (EntropyModulator and NormModulator) and evaluates performance on downstream segmentation/retouch tasks.
 
 ## Highlights
 - Test-time adaptation driven by iterative reconstruction.
@@ -32,4 +32,5 @@ python test_gamma_for_adaption.py
 - This project focuses on the adaptation modules; refer to the baseline GARD repository for original training/evaluation code and inspiration.
 
 ## Citation / Reference
-Fazekas et al., GARD repository: https://github.com/ABotond/GARD
+
+I heavily relied on the following repository by Fazekas et al.: https://github.com/ABotond/GARD
