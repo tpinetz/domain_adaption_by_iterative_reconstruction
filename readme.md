@@ -15,7 +15,7 @@ A compact repository for test-time domain adaptation using iterative reconstruct
 - Store the images in a folder split into `Input` for the images and `Label` for the segmentation mask as evaluation. I named the files Pat_{pat_idx}_{slice_idx}.png. 
 
 ## Running experiments
-1. Ensure the diffusion model is checked out with Git LFS (required assets).
+1. Train a GARD model using the repository of Fazekas.
 2. Update dataset and model folder paths in the configuration or scripts.
 3. Run the test-time adaptation script:
 
