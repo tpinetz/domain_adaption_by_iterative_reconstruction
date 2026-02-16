@@ -34,11 +34,15 @@ python test_gamma_for_adaption.py
 ## Citation / Reference
 
 I heavily relied on the following repository by Fazekas et al.: https://github.com/ABotond/GARD
+
+
 If you use this repository, please cite the following paper:
 
+```
 @inproceedings{pinetz2026exploiting,
   title={Exploiting Intermediate Reconstructions in Optical Coherence Tomography for Test-Time Adaption of Medical Image Segmentation},
   author={Pinetz, Thomas and Hucke, Veit and Bogunovi{\'c}, Hrvoje},
   booktitle={Medical Imaging with Deep Learning},
   year={2026}
 }
+```
