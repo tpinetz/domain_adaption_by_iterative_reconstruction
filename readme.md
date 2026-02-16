@@ -1,6 +1,6 @@
 # Domain Adaptation via Iterative Reconstruction
 
-A compact repository for test-time domain adaptation using iterative reconstruction for the following [paper](https://openreview.net/forum?id=9wIPViPG9F&referrer=%5Bthe%20profile%20of%20Hrvoje%20Bogunovi%C4%87%5D(%2Fprofile%3Fid%3D~Hrvoje_Bogunovi%C4%871)). The method adapts a pretrained model at test time using two modulators (EntropyModulator and NormModulator) and evaluates performance on downstream segmentation/retouch tasks.
+A compact repository for test-time domain adaptation using iterative reconstruction for the following [paper](https://openreview.net/forum?id=9wIPViPG9F&referrer=%5Bthe%20profile%20of%20Hrvoje%20Bogunovi%C4%87%5D(%2Fprofile%3Fid%3D~Hrvoje_Bogunovi%C4%871)) accepted at Medical Imaging with Deep Learning 2026 (MIDL). The method adapts a pretrained model at test time using two modulators (EntropyModulator and NormModulator) and evaluates performance on downstream segmentation tasks.
 
 ## Highlights
 - Test-time adaptation driven by iterative reconstruction.
@@ -34,3 +34,11 @@ python test_gamma_for_adaption.py
 ## Citation / Reference
 
 I heavily relied on the following repository by Fazekas et al.: https://github.com/ABotond/GARD
+If you use this repository, please cite the following paper:
+
+@inproceedings{pinetz2026exploiting,
+  title={Exploiting Intermediate Reconstructions in Optical Coherence Tomography for Test-Time Adaption of Medical Image Segmentation},
+  author={Pinetz, Thomas and Hucke, Veit and Bogunovi{\'c}, Hrvoje},
+  booktitle={Medical Imaging with Deep Learning},
+  year={2026}
+}
